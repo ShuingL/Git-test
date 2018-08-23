@@ -1,0 +1,145 @@
+
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title></title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/shoujisc.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/showTip.css">
+<script type="text/javascript" src="js/showTip.js"></script>
+</head>
+
+<body id="wrap">
+	
+    <div class="sjsc-title2">
+    	<h3 class="sjsc-t2l">商品下单</h3>
+        <a href="javascript:history.back();" class="sjsc-t2r"><img src="images/back.png" alt="" style="width:20px;height: 20px;padding-top: 11px;padding-left: 5px"/></a>
+    </div>
+    
+    <ul class="gwc-ul1">
+    
+    <input type="hidden" value="1" id='tnum1'>
+    <input type="hidden" value="48.0" id='tprice1'>
+    	<li>
+        	<div class="hwc-tu f-l"><a href="#"><img src="../upload/1465887400031.png" style="width: 68px"></a></div>
+            <div class="gwc-md f-l">
+            	<h3><a href="#">台湾土鸡仔</a></h3>
+                <p class="gwc-p1">&nbsp;</p>
+                <p class="gwc-p1">规格：<span>1.0-1.2KG</span></p>
+                <p class="gwc-p1">商城价：<span>￥48.0</span></p>
+            </div>
+            
+            <a href="javascript:;" onclick="plus('61','48.0','1')" class="gwc-del f-r"><img src="images/11.png" style="width: 28px;height: 25px"></a>
+            <a href="#" class="gwc-del f-r" id="goods_num" style="padding-top:4px;width: 16px">1</a>
+            <a href="javascript:;" onclick="min('61','48.0','1')" class="gwc-del f-r"><img src="images/22.png" style="width: 28px;height: 25px"></a>
+            
+            
+            <div style="clear:both;"></div>
+        </li>
+        
+    </ul>
+    
+    <div class="gwc-ft">
+    
+    	<p id="tnum">共1件商品，总计：<span>￥48.0</span></p>
+       
+        <button onclick="buy()">提交</button>
+       
+        <div style="clear:both;"></div>
+    </div>
+    
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+	<ul class="quanbu-ul1">
+    	<li>
+        	<div class="qu-tu1" align="center">
+            	<a href="index.html" class="atu1"><img src="images/sjsc-02.gif" style="width: 22px;height: 22px"></a>
+            	<a href="index.html" class="atu2"><img src="images/sjsc-15-1.gif" style="width: 22px;height: 22px"></a>
+            </div>
+            <a href="index.html" class="qu-ul1a">首页</a>
+        </li>
+    	<li>
+        	<div class="qu-tu1" align="center">
+            	<a href="category.html" class="atu1"><img src="images/sjsc-16.png" style="width: 22px;height: 22px"></a>
+            	<a href="category.html" class="atu2"><img src="images/sjsc-16-1.png" style="width: 22px;height: 22px"></a>
+            </div>
+            <a href="category.html" class="qu-ul1a">分类</a>
+        </li>
+    	<li  class="current">
+        
+            <div class="qu-tu1" style="height: 43px;" align="center">
+            	<a href="cartList.html" class="atu1"><img src="images/cart.png" style="width: 40px;height: 40px"></a>
+            	<a href="cartList.html" class="atu2"><img src="images/cart.png" style="width: 40px;height: 40px"></a>
+            	<span style="position:fixed;margin-top: -45px;margin-left:16px;color: #ff3c00" id="cart_num">0</span>
+            </div>
+            <!-- <a href="cartList.html" class="qu-ul1a">购物车</a> -->
+        </li>
+         <li>
+        	<div class="qu-tu1" align="center">
+            	<a href="orderList.html" class="atu1"><img src="images/ord-2.png"  style="width: 22px;height: 22px"></a>
+            	<a href="orderList.html" class="atu2"><img src="images/ord-1.png" style="width: 22px;height: 22px"></a> </div>
+            <a href="orderList.html" class="qu-ul1a">订单</a>
+        </li>
+    	  	<li>
+        	<div class="qu-tu1" align="center">
+            	<a href="center.html" class="atu1"><img src="images/sjsc-18.png" style="width: 22px;height: 22px"></a>
+            	<a href="center.html" class="atu2"><img src="images/sjsc18-1.png" style="width: 22px;height: 22px"></a>
+            </div>
+            <a href="center.html" class="qu-ul1a">我的</a>
+        </li>
+        <div style="clear:both;"></div>
+    </ul>
+</body>
+</html>
+
+    <script type="text/javascript">
+    function plus(goods_id,goods_price,sort){
+    	var goods_num1=$('#goods_num').text();
+    	var goods_num = parseInt(goods_num1)+1;
+    	$('#goods_num').text(goods_num);
+    	var goods_total  = goods_num * goods_price;
+  
+    	var tnum1 = $('#tnum1').val();
+ 	 // 	var tprice1 = $('#tprice1').val();
+    	var tnum = parseInt(tnum1)+1;
+    //	var tprice = (parseFloat(tprice1)+parseFloat(goods_price)).toFixed(1);
+		$('#tnum1').val(tnum);
+    	$('#tprice1').val(goods_total);
+    	$('#goods_num').text(goods_num);
+    	$('#tnum').html("共"+tnum+"件商品，总计：<span>￥"+goods_total+"</span>");
+    }
+    function min(goods_id,goods_price,sort){
+    	var goods_num1=$('#goods_num').text();
+    	if(goods_num1==1||goods_num1<1){
+    		window.history.go(-1);
+    	}
+    	var goods_num=parseInt(goods_num1)-1;
+    	var goods_total  = goods_num*goods_price;
+    	var tnum1 = $('#tnum1').val();
+  //  	var tprice1 = $('#tprice1').val();
+    	var tnum = parseInt(tnum1)-1;
+  //  	var tprice = (parseFloat(tprice1)-parseFloat(goods_price)).toFixed(1);
+    	$('#tnum1').val(tnum);
+    	$('#tprice1').val(goods_total);
+    	$('#goods_num').text(goods_num);
+
+    	$('#tnum').html("共"+tnum+"件商品，总计：<span>￥"+goods_total+"</span>");
+
+    }
+   	function buy(){
+   		var goods_num = $('#tnum1').val();
+    	var goods_id = '61';
+    	window.location.href='goodsOrderSure.html?goods_id='+goods_id+'&goods_num='+goods_num;
+   	}
+    </script>
+</body>
+</html>

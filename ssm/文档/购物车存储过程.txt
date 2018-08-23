@@ -1,0 +1,47 @@
+1，登录验证
+2，参数合法性验证（根据实际情况验证，比如goods_id在数据库为整型自增，那么它一定是非负的整数，不可能是小数，也不可能为字母，可以考虑用正则验证；goods_num必须为1或者就不要接受这个参数，代码里面写死为1）
+3，商品验证（是否存在）
+4，库存验证（是否还有足够库存）
+5，以上验证都ok的情况下添加商品进购物车
+6，购物车数量显示+1
+CREATE PROCEDURE cart_insert(in user_id_param VARCHAR(64),in goods_id_param INTEGER,in goods_num_param INTEGER)
+a:begin
+	IF goods_num_param<=0 THEN
+		select 3 as result,'操作失败，商品数量不能为非正数！' as msg;
+		leave a;
+	END IF;
+	IF goods_id_param<=0 THEN
+		select 4 as result,'操作失败，商品id不能为非正数！' as msg;
+		leave a;
+	END IF;
+	IF user_id_param is null THEN
+		select 4 as result,'操作失败，用户id不能为空！' as msg;
+		leave a;
+	END IF;
+	select oppen_id into user_id_param from  tb_user where oppen_id = user_id_param;
+	if FOUND_ROWS() = 0 THEN
+		select 4 as result,'操作失败，用户不存在！' as msg;
+		leave a;
+	end if;
+	
+	set @goods_id = 0;
+	set @goods_num = 0;
+	select goods_id,goods_num into @goods_id,@goods_num from tb_goods where goods_id = goods_id_param;
+	IF FOUND_ROWS() > 0 THEN #如果查到结果，说明商品存在该商品，继续下一步操作
+		IF @goods_num>goods_num_param THEN #如果商品库存足够，继续下一步操作
+			select oppen_id into user_id_param from tb_cart where oppen_id=user_id_param and goods_id=goods_id_param;
+			IF FOUND_ROWS() > 0 THEN #如果购物车内已有该商品，将购物车内该商品数量+1
+				update tb_cart set goods_num=goods_num+goods_num_param,goods_total=goods_total+goods_num_param*goods_price where oppen_id=user_id_param and goods_id=goods_id_param;
+			ELSE #如果购物车内没有该商品，将购物车向购物车内添加该商品
+				insert into tb_cart(goods_id,goods_name,goods_img,goods_spe,goods_price,goods_num,goods_total,oppen_id) select goods_id,goods_name,goods_img,goods_spe,goods_price,goods_num_param as goods_num,goods_num_param*goods_price as goods_total,user_id_param as oppen_id from tb_goods where goods_id = goods_id_param;
+			END IF;
+				#添加商品进购物车后商品库存减少对应的数量
+				update tb_goods set goods_num = goods_num-goods_num_param where goods_id = goods_id_param;
+			select 0 as result,'添加成功！' as msg,sum(goods_num) as cart_count from tb_cart where oppen_id=user_id_param;
+		ELSE
+			select 2 as result,'该商品库存不足！' as msg;
+		END IF;
+	ELSE
+		select 1 as result,'该商品不存在！' as msg;
+	END IF;
+end;

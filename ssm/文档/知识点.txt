@@ -1,0 +1,72 @@
+===============项目注意事项
+1、注意警告要尽量不要
+2、参数要记得验证，js验证一次后，后台也要验证
+3、controller要分不同类型的，例如商品有关的操作有个controller，，用户有关的一个
+4、ajax不要用js那个，原理代码太长，难看，要用jQuery的
+5、jsp中数据用jstl标签遍历
+6、mybatis尽量不要用注解SQL，因为注解SQL很难实现动态SQL，动态SQL即有判断条件的SQL
+7、切记不要直接从客户端（页面）取数据来用，要从数据库取，及时从页面取了也要从数据库查一遍，看是否相等，看是否有人搞事情
+8、注意所有可能出现nullpointexception的地方，注意查询数据库所有可能为空的值
+
+
+================登录注册功能&知识点
+1，点击登录按钮，以ajax方式进行表单提交，服务器查询数据然后返回结果，如果登录成功利用js跳转到首页，需要防注入
+
+2，注册功能，ajax提交注册请求，注册成功跳转到登陆页面
+
+3，找回密码功能，先简单实现，输入用户名和手机号，直接重置密码并返回重置的密码给用户
+
+
+
+防注入方式：
+1、用preparestatement
+2、先根据用户名去数据库查出一个dto，再从dto里取出密码与用户密码作比较，若一样就是登陆成功，反之失败
+3、最好密码加密再放进数据库，防止别人攻击你的数据库
+4、可解的加密、不可解的加密。不可解谜的加密，找不回原密码，只能把用户输入的密码也加密，用两个加密的密码来比较
+
+登录进去之后留在之前的页面，不返回主页面
+
+使controller可以返回json数据的步骤：
+下载三个jar包
+在springmvc的配置文件加一段东西
+<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <!-- 启动JSON格式的配置,有此配置项可使用@ResponseBody注解返回json数据 -->
+                <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <!-- 解决 HttpMediaTypeNotAcceptableException: Could not find acceptable representation -->
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+#如果方法返回的是json数据而不是页面就要加注解
+@ResponseBody
+注解放在requestMapping下面
+
+
+在页面中用jstl取数据：
+在controller那里方法的返回类型用ModelAndView
+1、如果controller的方法返回类型是String或者ModelAndView，那么都是返回一个页面
+2、区别在于modelAndView可以放数据进去，然后在页面上使用el表达式取出来
+3、ModelAndView相当于一个map，如果在返回类型为ModelAndView的方法上面加了@responsebody注解，那就不是返回页面，而是返回json数据了
+4、界面取的方法${返回值名称}
+
+
+
+===================路径问题
+ /代表根目录
+ ./表示当前目录
+../表示回到上一级目录
+
+
+./../../当前目录的上级的上级目录 
+
+在浏览器中，去掉最后一个名字就是绝对路径了
+
+

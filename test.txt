@@ -1,0 +1,18 @@
+﻿git init //初始化仓库
+git status  查看状态
+git config --global core.quotepath false  若中文文件的名称乱码
+git add "测试文件.txt"
+或 git add -A 上传此目录下所有文件
+git commit -m"更新的信息爱"  提交
+git log  查看日志
+git diff  查看改变
+git checkout --  撤销改变
+git reset --hard 版本号前七位 //版本回退
+git reflog //查看之前版本
+git clean -xf //删除未跟踪的文件，就是没上传过的文件
+
+git config --global user.name "youname"
+git config --global user email "youremail"
+
+git remote add origin +ssh//连接到远程仓库
+git clone +ssh//从远程仓库克隆东西到本地库
